@@ -3,6 +3,14 @@ const app=express();
 const mongoose=require("mongoose");
 const dotenv=require("dotenv").config();
 
+// for sending the json object 
+app.use(express.json())
+
+// routes
+
+const authRoute=require('./routes/auth')
+
+
 // DB connection
 mongoose.connect(process.env.MONGO_URL)
 .then(console.log("Connected to mongoDB"))
@@ -10,11 +18,12 @@ mongoose.connect(process.env.MONGO_URL)
     console.log("DB Connection Error",err);
 });
 
+// use routes
+app.use('/api/auth',authRoute);
 
-app.use('/',(req,res)=>{
-    res.end(`<h1>Hello</h1>`)
-})
 
+
+// app listen 
 app.listen("8000",(err)=>{
     if(err){
         console.log("Error In starting Server....");
