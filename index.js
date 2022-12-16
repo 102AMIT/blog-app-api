@@ -1,10 +1,36 @@
 const express=require("express");
 const app=express();
+const Port=process.env.PORT ||8000;
 const mongoose=require("mongoose");
 const dotenv=require("dotenv").config();
+const bodyParser=require("body-parser");
+
+// we need to allow the other host for using this server 
+
+// Add headers before the routes are defined
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    
+    // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
 
 // for sending the json object 
-app.use(express.json())
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // routes
 
@@ -32,7 +58,7 @@ const storage=multer.diskStorage({
 })
 
 const upload=multer({storage:storage});
-app.post("/api/upload",upload.single("file"),(req,res)=>{
+app.post("/api/upload",upload.single("file"),(req,res)=>{ 
     res.status(200).json("File has been uploaded")
 });
 
@@ -53,9 +79,9 @@ app.use('/api/categories',categoryRoute);
 
 // app listen 
 
-app.listen("8000",(err)=>{
+app.listen(Port,(err)=>{
     if(err){
         console.log("Error In starting Server....");
     }
-    console.log("backend server is running Up");
+    console.log("backend server is running Up On Port:",`${Port}`);
 })
