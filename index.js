@@ -4,6 +4,7 @@ const Port=process.env.PORT ||8000;
 const mongoose=require("mongoose");
 const dotenv=require("dotenv").config();
 const bodyParser=require("body-parser");
+const path=require("path")
 
 // we need to allow the other host for using this server 
 
@@ -20,8 +21,9 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     
     // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
 
   // Pass to next layer of middleware
   next();
@@ -31,6 +33,9 @@ app.use(function (req, res, next) {
 // for sending the json object 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+// for static folder access 
+app.use("/images",express.static(path.join(__dirname,"/images")))
 
 // routes
 
@@ -51,9 +56,9 @@ mongoose.connect(process.env.MONGO_URL)
 // Multer implementation
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-       cb(null,'images') 
+       cb(null,"images") 
     },filename:(req,file,cb)=>{
-        cb(null,"req.body.name")
+        cb(null,req.body.name)
     }
 })
 
