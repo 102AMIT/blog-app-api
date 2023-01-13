@@ -5,8 +5,7 @@ const mongoose=require("mongoose");
 const dotenv=require("dotenv").config();
 const bodyParser=require("body-parser");
 const path=require("path")
-// const cors=require("cors");
-// var corsOptions ={ origin: "*"};
+
   
 // we need to allow the other host for using this server 
 
@@ -74,7 +73,7 @@ app.post("/api/upload",upload.single("file"),(req,res)=>{
 
 // use routes
 // this is for auth
-// app.use(cors(corsOptions));
+
 app.use('/api/auth',authRoute);
 
 // this is for user
