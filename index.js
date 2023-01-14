@@ -5,6 +5,7 @@ const mongoose=require("mongoose");
 const dotenv=require("dotenv").config();
 const bodyParser=require("body-parser");
 const path=require("path")
+const multer=require("Multer")
 
   
 // we need to allow the other host for using this server 
@@ -48,7 +49,6 @@ const authRoute=require('./routes/auth')
 const userRoute=require('./routes/user');
 const postRoute=require('./routes/post');
 const categoryRoute=require('./routes/categories');
-const multer=require("Multer")
 
 // DB connection
 mongoose.connect(process.env.MONGO_URL)
