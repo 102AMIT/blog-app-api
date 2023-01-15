@@ -44,6 +44,19 @@ app.use(bodyParser.json());
 app.use("/images",express.static(path.join(__dirname,"/images")))
 
 // routes
+// Multer implementation
+const storage=multer.diskStorage({
+    destination:(req,file,cb)=>{
+       cb(null,"images") 
+    },filename:(req,file,cb)=>{
+        cb(null,req.body.name)
+    }
+})
+
+const upload=multer({storage:storage});
+app.post("/api/upload",upload.single("file"),(req,res)=>{ 
+    res.status(200).json("File has been uploaded")
+});
 
 const authRoute=require('./routes/auth')
 const userRoute=require('./routes/user');
@@ -58,19 +71,7 @@ mongoose.connect(process.env.MONGO_URL)
 });
 
 
-// Multer implementation
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-       cb(null,"images") 
-    },filename:(req,file,cb)=>{
-        cb(null,req.body.name)
-    }
-})
 
-const upload=multer({storage:storage});
-app.post("/api/upload",upload.single("file"),(req,res)=>{ 
-    res.status(200).json("File has been uploaded")
-});
 
 // use routes
 // this is for auth
