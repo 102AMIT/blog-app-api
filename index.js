@@ -6,6 +6,8 @@ const dotenv=require("dotenv").config();
 const bodyParser=require("body-parser");
 const path=require("path")
 const multer=require("multer")
+// const cors=require("cors");
+// app.use(cors());
 
   
 // we need to allow the other host for using this server 
@@ -18,7 +20,7 @@ app.use(function (req, res, next) {
 
     
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'https://blog-app-ujft.onrender.com/');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
