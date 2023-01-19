@@ -5,7 +5,7 @@ const mongoose=require("mongoose");
 const dotenv=require("dotenv").config();
 const bodyParser=require("body-parser");
 const path=require("path")
-const multer=require("Multer")
+const multer=require("multer")
 
   
 // we need to allow the other host for using this server 
