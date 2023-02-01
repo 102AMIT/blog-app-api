@@ -2,12 +2,16 @@ const express=require("express");
 const app=express();
 const Port=process.env.PORT ||8000;
 const mongoose=require("mongoose");
+
 const dotenv=require("dotenv").config();
+const cors = require('cors')
+ 
+app.use(cors())
 const bodyParser=require("body-parser");
 const path=require("path")
 const multer=require("multer")
 // const cors=require("cors");
-// app.use(cors());
+
 
   
 // we need to allow the other host for using this server 
@@ -16,12 +20,7 @@ const multer=require("multer")
 // Add headers before the routes are defined
 
 
-app.use((req,res, next)=>{
-    res.setHeader('Access-Control-Allow-Origin',"https://blog-app-inax.onrender.com/");
-    res.setHeader('Access-Control-Allow-Headers',"*");
-    res.header('Access-Control-Allow-Credentials', true);
-    next();
-});
+
 
 
 // for sending the json object 
@@ -53,7 +52,8 @@ const postRoute=require('./routes/post');
 const categoryRoute=require('./routes/categories');
 
 // DB connection
-mongoose.connect(process.env.MONGO_URL)
+mongoose.set("strictQuery", false);
+mongoose.connect("mongodb+srv://amit:amit@cluster0.c0w66ui.mongodb.net/?retryWrites=true&w=majority")
 .then(console.log("Connected to mongoDB"))
 .catch(err=>{
     console.log("DB Connection Error",err);
